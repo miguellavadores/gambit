@@ -21,7 +21,7 @@ func Manejadores(path string, method string, body string, header map[string]stri
 		return statusCode, user
 	}
 
-	switch path[0:4] {
+	switch path[1:5] {
 	case "user":
 		return procesoUser(body, path, method, user, id, request)
 	case "prod":
