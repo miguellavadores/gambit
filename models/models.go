@@ -15,7 +15,21 @@ type SignUp struct {
 }
 
 type Category struct {
-	CategID 			int `json:"categID"`
-	CategName			string `json:"categName"`
-	CategPath			string `json:"categPath"`
+	CategID   int    `json:"categID"`
+	CategName string `json:"categName"`
+	CategPath string `json:"categPath"`
+}
+
+type Product struct {
+	ProdId          int     `json:"prodID"`
+	ProdTitle       string  `json:"prodTitle"`
+	ProdDescription string  `json:"prodDescription"`
+	ProdCreatedAt   string  `json:"prodCreatedAt"`
+	ProdUpdated     string  `json:"prodUpdated"`
+	ProdPrice       float64 `json:"prodPrice,omitempty"`
+	ProdStock       int     `json:"prodStock"`
+	ProdCategId     int     `json:"prodCategId"`
+	ProdPath        string  `json:"prodPath"`
+	ProdSearch      string  `json:"search,omitempty"`
+	ProdCategPath   string  `json:"categPath,omitempty"`
 }

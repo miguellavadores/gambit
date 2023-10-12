@@ -23,17 +23,17 @@ func Manejadores(path string, method string, body string, header map[string]stri
 
 	switch path[1:5] {
 	case "user":
-		return procesoUser(body, path, method, user, id, request)
+		return ProcesoUser(body, path, method, user, id, request)
 	case "prod":
-		return procesoProducts(body, path, method, user, idn, request)
+		return ProcesoProducts(body, path, method, user, idn, request)
 	case "stoc":
-		return procesoStock(body, path, method, user, idn, request)
+		return ProcesoStock(body, path, method, user, idn, request)
 	case "addr":
-		return procesoAddress(body, path, method, user, idn, request)
+		return ProcesoAddress(body, path, method, user, idn, request)
 	case "cate":
-		return procesoCategory(body, path, method, user, idn, request)
+		return ProcesoCategory(body, path, method, user, idn, request)
 	case "orde":
-		return procesoOrder(body, path, method, user, idn, request)
+		return ProcesoOrder(body, path, method, user, idn, request)
 	}
 
 	return 400, "Method Invalid"
@@ -66,15 +66,20 @@ func validoAuthorization(path string, method string, headers map[string]string) 
 
 }
 
-func procesoUser(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoUser(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest) (int, string) {
 	return 400, "Method Invalid"
 }
 
-func procesoProducts(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoProducts(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
+	switch method {
+	case "POST":
+		return routers.InsertProduct(body, user)
+	}
+
 	return 400, "Method Invalid"
 }
 
-func procesoCategory(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoCategory(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
 	switch method {
 	case "POST":
 		return routers.InsertCategory(body, user)
@@ -89,14 +94,14 @@ func procesoCategory(body string, path string, method string, user string, id in
 	return 400, "Method Invalid"
 }
 
-func procesoStock(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoStock(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
 	return 400, "Method Invalid"
 }
 
-func procesoAddress(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoAddress(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
 	return 400, "Method Invalid"
 }
 
-func procesoOrder(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoOrder(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest) (int, string) {
 	return 400, "Method Invalid"
 }
