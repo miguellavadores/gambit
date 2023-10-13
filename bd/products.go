@@ -90,7 +90,7 @@ func UpdateProduct(p models.Product) error {
 	}
 	defer Db.Close()
 
-	sentencia := "Update products SET"
+	sentencia := "Update products SET "
 
 	sentencia = tools.ArmoSentencia(sentencia, "Prod_Title", "S", 0, 0, p.ProdTitle)
 	sentencia = tools.ArmoSentencia(sentencia, "Prod_Description", "S", 0, 0, p.ProdDescription)
