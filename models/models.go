@@ -35,6 +35,6 @@ type Product struct {
 }
 
 type ProductResp struct {
-	TotalItems      int     `json:"totalItems"`
-	Data            []Product `json:"data"`
+	TotalItems int       `json:"totalItems"`
+	Data       []Product `json:"data"`
 }
