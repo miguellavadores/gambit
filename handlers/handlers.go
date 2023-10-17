@@ -40,7 +40,7 @@ func Manejadores(path string, method string, body string, header map[string]stri
 }
 
 func validoAuthorization(path string, method string, headers map[string]string) (bool, int, string) {
-	if (path == "product" && method == "GET") ||
+	if (path == "kbzer4pzzc.execute-api.us-east-2.amazonaws.com/gambit/gambit/product" && method == "GET") ||
 		(path == "category" && method == "GET") {
 		return true, 200, ""
 	}
