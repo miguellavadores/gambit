@@ -53,7 +53,7 @@ func validoAuthorization(path string, method string, headers map[string]string) 
 	todoOK, err, msg := auth.ValidoToken(token)
 	if !todoOK {
 		if err != nil {
-			fmt.Println("Error en token " + err.Error())
+			fmt.Println("Error en el token " + err.Error())
 			return false, 401, err.Error()
 		} else {
 			fmt.Println("Error en token " + msg)

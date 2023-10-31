@@ -25,20 +25,20 @@ func ValidoToken(token string) (bool, error, string) {
 	parts := strings.Split(token, ".")
 
 	if len(parts) != 3 {
-		fmt.Println("Token mal formado ")
+		fmt.Println("El token no es válido")
 		return false, nil, "El token no es válido"
 	}
 
 	userInfo, err := base64.StdEncoding.DecodeString(parts[1])
 	if err != nil {
-		fmt.Println("Error al decodificar el token ", err.Error())
+		fmt.Println("No se puede decodificar la parte del token :", err.Error())
 		return false, err, err.Error()
 	}
 
 	var tkj TokenJSON
 	err = json.Unmarshal(userInfo, &tkj)
 	if err != nil {
-		fmt.Println("Error al decodificar laestructura JSON ", err.Error())
+		fmt.Println("No se puede decodificar la estructura JSON ", err.Error())
 		return false, err, err.Error()
 
 	}
@@ -47,7 +47,7 @@ func ValidoToken(token string) (bool, error, string) {
 	tm := time.Unix(int64(tkj.Exp), 0)
 	if tm.Before(ahora) {
 		fmt.Println("Fecha expiración del token " + tm.String())
-		fmt.Println("El token ha expirado !")
+		fmt.Println("Token expirado !")
 		return false, err, "Token Expirado !!"
 	}
 

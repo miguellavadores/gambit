@@ -32,10 +32,10 @@ func InsertCategory(body string, User string) (int, string) {
 
 	result, err2 := bd.InsertCategory(t)
 	if err2 != nil {
-		return 400, "Ocurrio un error al intentar realizar el registro de la Categoría" + t.CategName + err2.Error()
+		return 400, "Ocurrio un error al intentar realizar el registro de la Categoría" + t.CategName + " > " + err2.Error()
 	}
 
-	return 200, "{ CategID: " + strconv.Itoa(int(result)) + " }"
+	return 200, "{ CategID: " + strconv.Itoa(int(result)) + "}"
 }
 
 func UpdateCategory(body string, User string, id int) (int, string) {
@@ -58,7 +58,7 @@ func UpdateCategory(body string, User string, id int) (int, string) {
 	t.CategID = id
 	err2 := bd.UpdateCategory(t)
 	if err2 != nil {
-		return 400, "Ocurrio un error al intentar realizar el UPDATE de la categoria " + strconv.Itoa(id) + " > " + err2.Error()
+		return 400, "Ocurrio un error al intentar realizar el UPDATE de la categoría " + strconv.Itoa(id) + " > " + err.Error()
 
 	}
 
@@ -101,12 +101,12 @@ func SelectCategories(body string, request events.APIGatewayV2HTTPRequest) (int,
 
 	lista, err2 := bd.SelectCategories(CategId, Slug)
 	if err2 != nil {
-		return 400, "Ocurrio un error al intentar capturar Categoría/s " + err2.Error()
+		return 400, "Ocurrio un error al intentar capturar Categoría/s > " + err2.Error()
 	}
 
 	Categ, err3 := json.Marshal(lista)
 	if err3 != nil {
-		return 400, "Ocurrio un error al intentar en JSON las Categoría/s " + err2.Error()
+		return 400, "Ocurrio un error al intentar convertir en JSON Categoría/s > " + err3.Error()
 	}
 
 	return 200, string(Categ)
