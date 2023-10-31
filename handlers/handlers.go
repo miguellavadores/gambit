@@ -9,21 +9,21 @@ import (
 	"github.com/miguellavadores/gambit/routers"
 )
 
-func Manejadores(path string, method string, body string, header map[string]string, request events.APIGatewayV2HTTPRequest) (int, string) {
+func Manejadores(path string, method string, body string, headers map[string]string, request events.APIGatewayV2HTTPRequest) (int, string) {
 
 	fmt.Println("Voy a procesar " + path + " > " + method)
 
 	id := request.PathParameters["id"]
 	idn, _ := strconv.Atoi(id)
 
-	isOk, statusCode, user := validoAuthorization(path, method, header)
+	isOk, statusCode, user := validoAuthorization(path, method, headers)
 	if !isOk {
 		return statusCode, user
 	}
 
 	switch path[1:5] {
 	case "user":
-		return ProcesoUser(body, path, method, user, id, request)
+		return ProcesoUsers(body, path, method, user, id, request)
 	case "prod":
 		return ProcesoProducts(body, path, method, user, idn, request)
 	case "stoc":
@@ -66,7 +66,7 @@ func validoAuthorization(path string, method string, headers map[string]string) 
 
 }
 
-func ProcesoUser(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest) (int, string) {
+func ProcesoUsers(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest) (int, string) {
 	return 400, "Method Invalid"
 }
 
