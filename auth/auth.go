@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -21,27 +22,27 @@ type TokenJSON struct {
 }
 
 func ValidoToken(token string) (bool, error, string) {
-	userInfo, err := base64.StdEncoding.DecodeString(token)
+	parts := strings.Split(token, ".")
+	if len(parts) < 2 {
+		return false, fmt.Errorf("Invalid token format"), ""
+	}
 
+	userInfo, err := base64.RawStdEncoding.DecodeString(parts[1])
 	if err != nil {
-		fmt.Println("No se puede decodificar la parte del token: ", err.Error())
-		return false, err, err.Error()
+		return false, fmt.Errorf("Failed to decode token: %s", err.Error()), ""
 	}
 
 	var tkj TokenJSON
 	err = json.Unmarshal(userInfo, &tkj)
 	if err != nil {
-		fmt.Println("No se puede decodificar la estructura JSON ", err.Error())
-		return false, err, err.Error()
+		return false, fmt.Errorf("Failed to unmarshal JSON: %s", err.Error()), ""
 	}
 
 	ahora := time.Now()
 	tm := time.Unix(int64(tkj.Exp), 0)
 
 	if tm.Before(ahora) {
-		fmt.Println("Fecha expiración token = " + tm.String())
-		fmt.Println("Token expirado !")
-		return false, err, "Token expirado !!"
+		return false, fmt.Errorf("Token has expired"), ""
 	}
 
 	return true, nil, tkj.Username
