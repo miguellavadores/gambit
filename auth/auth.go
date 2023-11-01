@@ -9,16 +9,16 @@ import (
 )
 
 type TokenJSON struct {
-	Sub        string
-	Event_Id   string
-	Token_user string
-	Scope      string
-	Auth_time  int
-	Iss        string
-	Exp        int
-	Iat        int
-	Client_id  string
-	Username   string
+	Sub       string
+	Event_Id  string
+	Token_use string
+	Scope     string
+	Auth_time int
+	Iss       string
+	Exp       int
+	Iat       int
+	Client_id string
+	Username  string
 }
 
 func ValidoToken(token string) (bool, error, string) {
@@ -29,11 +29,16 @@ func ValidoToken(token string) (bool, error, string) {
 		return false, nil, "El token no es válido"
 	}
 
-	userInfo, err := base64.StdEncoding.DecodeString(parts[1])
-	if err != nil {
-		fmt.Println("No se puede decodificar la parte del token :", err.Error())
-		return false, err, err.Error()
-	}
+	userInfo3, err := base64.StdEncoding.Strict().DecodeString(parts[1])
+	userInfo2 := string(userInfo3) + "}"
+	userInfo := []byte(userInfo2)
+
+	fmt.Println("Imprimo userInfo2:")
+	fmt.Println(userInfo2)
+	fmt.Println("Imprimo userInfo:")
+	fmt.Println(userInfo)
+
+	fmt.Println(err)
 
 	var tkj TokenJSON
 	err = json.Unmarshal(userInfo, &tkj)
