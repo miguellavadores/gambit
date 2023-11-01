@@ -21,7 +21,7 @@ func Manejadores(path string, method string, body string, headers map[string]str
 		return statusCode, user
 	}
 
-	fmt.Println("path[0:4] = " + path[0:4])
+	fmt.Println("path[1:5] = " + path[0:4])
 
 	switch path[0:4] {
 	case "user":
