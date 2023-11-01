@@ -21,7 +21,9 @@ func Manejadores(path string, method string, body string, headers map[string]str
 		return statusCode, user
 	}
 
-	switch path[1:5] {
+	fmt.Println("path[0:4] = " + path[0:4])
+
+	switch path[0:4] {
 	case "user":
 		return ProcesoUsers(body, path, method, user, id, request)
 	case "prod":
@@ -47,7 +49,7 @@ func validoAuthorization(path string, method string, headers map[string]string) 
 
 	token := headers["authorization"]
 	if len(token) == 0 {
-		return false, 401, "Token Requerido"
+		return false, 401, "Token requerido"
 	}
 
 	todoOK, err, msg := auth.ValidoToken(token)
@@ -56,14 +58,13 @@ func validoAuthorization(path string, method string, headers map[string]string) 
 			fmt.Println("Error en el token " + err.Error())
 			return false, 401, err.Error()
 		} else {
-			fmt.Println("Error en token " + msg)
+			fmt.Println("Error en el token " + msg)
 			return false, 401, msg
 		}
 	}
 
 	fmt.Println("Token OK")
 	return true, 200, msg
-
 }
 
 func ProcesoUsers(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest) (int, string) {
