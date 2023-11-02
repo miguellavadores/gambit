@@ -137,8 +137,10 @@ func SelectCategories(CategId int, Slug string) ([]models.Category, error) {
 		c.CategPath = categPath.String
 
 		Categ = append(Categ, c)
+
 	}
 
 	fmt.Println("Select Category > Ejecución Exitosa")
 	return Categ, nil
+
 }

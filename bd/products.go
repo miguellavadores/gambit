@@ -2,6 +2,7 @@ package bd
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -25,19 +26,15 @@ func InsertProduct(p models.Product) (int64, error) {
 	if len(p.ProdDescription) > 0 {
 		sentencia += ", Prod_Description"
 	}
-
 	if p.ProdPrice > 0 {
 		sentencia += ", Prod_Price"
 	}
-
 	if p.ProdCategId > 0 {
 		sentencia += ", Prod_CategoryId"
 	}
-
 	if p.ProdStock > 0 {
 		sentencia += ", Prod_Stock"
 	}
-
 	if len(p.ProdPath) > 0 {
 		sentencia += ", Prod_Path"
 	}
@@ -47,19 +44,15 @@ func InsertProduct(p models.Product) (int64, error) {
 	if len(p.ProdDescription) > 0 {
 		sentencia += ",'" + tools.EscapeString(p.ProdDescription) + "'"
 	}
-
 	if p.ProdPrice > 0 {
 		sentencia += ", " + strconv.FormatFloat(p.ProdPrice, 'e', -1, 64)
 	}
-
 	if p.ProdCategId > 0 {
 		sentencia += ", " + strconv.Itoa(p.ProdCategId)
 	}
-
 	if p.ProdStock > 0 {
 		sentencia += ", " + strconv.Itoa(p.ProdStock)
 	}
-
 	if len(p.ProdPath) > 0 {
 		sentencia += ", '" + tools.EscapeString(p.ProdPath) + "'"
 	}
@@ -78,7 +71,7 @@ func InsertProduct(p models.Product) (int64, error) {
 		return 0, err2
 	}
 
-	fmt.Println("Insert Products > Ejecución Exitosa")
+	fmt.Println("Insert Product > Ejecución Exitosa")
 	return LastInsertId, nil
 }
 
@@ -108,7 +101,7 @@ func UpdateProduct(p models.Product) error {
 		return err
 	}
 
-	fmt.Println("Update Product > Ejecución Exitosa ")
+	fmt.Println("Update Product > Ejecución Exitosa")
 	return nil
 }
 
@@ -129,9 +122,8 @@ func DeleteProduct(id int) error {
 		return err
 	}
 
-	fmt.Println("Delete Product > Ejecución Exitosa ")
+	fmt.Println("Delete Product > Ejecución Exitosa")
 	return nil
-
 }
 
 func SelectProduct(p models.Product, choice string, page int, pageSize int, orderType string, orderField string) (models.ProductResp, error) {
@@ -252,12 +244,36 @@ func SelectProduct(p models.Product, choice string, page int, pageSize int, orde
 		p.ProdCategId = int(ProdCategoryId.Int32)
 		p.ProdStock = int(ProdStock.Int32)
 		Prod = append(Prod, p)
-
 	}
 
 	Resp.TotalItems = registros
 	Resp.Data = Prod
 
-	fmt.Println("Select product > Ejecución Exitosa")
+	fmt.Println("Select Product > Ejecución Exitosa")
 	return Resp, nil
+}
+
+func UpdateStock(p models.Product) error {
+	fmt.Println("Comienza Update Stock")
+
+	if p.ProdStock == 0 {
+		return errors.New("[ERROR] Debe enviar el Stock a modificar")
+	}
+
+	err := DbConnect()
+	if err != nil {
+		return err
+	}
+	defer Db.Close()
+
+	sentencia := "UPDATE products SET Prod_Stock = Prod_Stock + " + strconv.Itoa(p.ProdStock) + " WHERE Prod_Id = " + strconv.Itoa(p.ProdId)
+
+	_, err = Db.Exec(sentencia)
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	fmt.Println("Update Stock > Ejecución Exitosa")
+	return nil
 }

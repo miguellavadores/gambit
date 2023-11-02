@@ -18,9 +18,8 @@ func InsertCategory(body string, User string) (int, string) {
 	}
 
 	if len(t.CategName) == 0 {
-		return 400, "Debe especificar el Nombre (title) de la Categoría"
+		return 400, "Debe especificar el Nombre (Title) de la Categoría"
 	}
-
 	if len(t.CategPath) == 0 {
 		return 400, "Debe especificar el Path (Ruta) de la Categoría"
 	}
@@ -32,10 +31,11 @@ func InsertCategory(body string, User string) (int, string) {
 
 	result, err2 := bd.InsertCategory(t)
 	if err2 != nil {
-		return 400, "Ocurrio un error al intentar realizar el registro de la Categoría" + t.CategName + " > " + err2.Error()
+		return 400, "Ocurrió un error al intentar realizar el registro de la categoría " + t.CategName + " > " + err2.Error()
 	}
 
 	return 200, "{ CategID: " + strconv.Itoa(int(result)) + "}"
+
 }
 
 func UpdateCategory(body string, User string, id int) (int, string) {
@@ -59,7 +59,6 @@ func UpdateCategory(body string, User string, id int) (int, string) {
 	err2 := bd.UpdateCategory(t)
 	if err2 != nil {
 		return 400, "Ocurrio un error al intentar realizar el UPDATE de la categoría " + strconv.Itoa(id) + " > " + err.Error()
-
 	}
 
 	return 200, "Update OK"
@@ -67,7 +66,7 @@ func UpdateCategory(body string, User string, id int) (int, string) {
 
 func DeleteCategory(body string, User string, id int) (int, string) {
 	if id == 0 {
-		return 400, "Debe especificar el ID de la Categoría a eliminar"
+		return 400, "Debe especificar ID de la Categoría a borrar"
 	}
 
 	isAdmin, msg := bd.UserIsAdmin(User)
@@ -77,7 +76,7 @@ func DeleteCategory(body string, User string, id int) (int, string) {
 
 	err := bd.DeleteCategory(id)
 	if err != nil {
-		return 400, "Ocurrio un error al intentar realizar el DELETE de la categoria " + strconv.Itoa(id) + " > " + err.Error()
+		return 400, "Ocurrió un error al intentar realizar el DELETE de la categoria " + strconv.Itoa(id) + " > " + err.Error()
 	}
 
 	return 200, "Delete OK"
@@ -110,4 +109,5 @@ func SelectCategories(body string, request events.APIGatewayV2HTTPRequest) (int,
 	}
 
 	return 200, string(Categ)
+
 }
