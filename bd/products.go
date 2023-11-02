@@ -245,13 +245,21 @@ func SelectProduct(p models.Product, choice string, page int, pageSize int, orde
 		p.ProdId = int(ProdId.Int32)
 		p.ProdTitle = ProdTitle.String
 		p.ProdDescription = ProdDescription.String
-		p.ProdCreatedAt = ProdCreatedAt.Time.String()
-		p.ProdUpdated = ProdUpdated.Time.String()
+
+		if ProdCreatedAt.Valid {
+			p.ProdCreatedAt = ProdCreatedAt.Time.Format("2006-01-02 15:04:05") // Adjust the format according to your actual format
+		}		
+
+		if ProdUpdated.Valid {
+			p.ProdUpdated = ProdUpdated.Time.Format("2006-01-02 15:04:05") // Adjust the format according to your actual format
+		}
+
 		p.ProdPrice = ProdPrice.Float64
 		p.ProdPath = ProdPath.String
 		p.ProdCategId = int(ProdCategoryId.Int32)
 		p.ProdStock = int(ProdStock.Int32)
 		Prod = append(Prod, p)
+	
 	}
 
 	Resp.TotalItems = registros
